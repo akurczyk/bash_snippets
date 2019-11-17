@@ -1,0 +1,449 @@
+cal -- kalendarz
+date -- aktualna data
+
+* - kilka dowolnych znaków
+? - 1 dowolny znak
+[abc] - a, b albo c
+[!abc] - inne niż a, b albo c
+[:alnum:]
+[:alpha:]
+[:digit:]
+[:lower:]
+[:upper:]
+
+[![:digit:]]*
+[[:lower:]123]*
+
+cd -
+cd --
+cd ~
+cd ~login
+
+ls -ahl -- najwięcej info
+ls -ahl plik -- info o 1 pliku
+ls -ahld katalog -- info o 1 katalogu
+
+file PLIK -- info o pliku
+type POLECENIE -- wewnętrzne czy zewnętrzne, jeśli zewnętrzne to poda ścieżke
+which POLECENIE -- jeśli istnieje kilka poleceń o tej samej nazwie, podaje które zostanie użyte (pierwsze w PATH)
+apropos FRAGMENT_NAZWY -- wyszukuje stron manuala
+whatis NAZWA -- krótki opis polecenia
+
+cmd > wyczysc.txt
+cmd >> dopisz.txt
+
+cmd > out.txt 2> err.txt
+cmd > out_i_err.txt 2>&1
+cmd &> out_i_err.txt -- nowy bash
+
+CTRL+D -- EOF
+
+cat > plik.txt
+cat < plik.txt
+
+sort
+uniq
+uniq -d -- odwraca
+wc -- licznik
+grep -i -- case insensitive
+grep -v -- niepasujące
+head -n 5
+tail -n 5
+tail -f plik -- na żywo
+
+ls /usr/bin | tee ls.txt | grep zip
+	-- do ls.txt idzie całość
+
+echo $((100 + 50))
++ -- dodawanie
+- -- odejmowanie
+* -- mnożenie
+/ -- dzielenie
+% -- reszta
+** -- do potęgi
+można używać nawiasów wewnątrz
+
+mkdir {2009..2011}-0{1..9} {2009..2011}-{10..12}
+wspiera też litery normalnie i wspak
+
+file $(ls /usr/bin/* | grep zip)
+ls -l `which cp`
+
+ls -l "two words.txt" -- działają w nich zmienne, matma i wywoływanie poleceń przez $()
+ls -l 'two words.txt' -- wszystko traktowane jest jako tekst
+ls -l two\ words.txt
+
+\a -- bell
+\b -- backspace
+\n -- nowa linia
+\r -- powrót karetki
+\t -- tabulator
+
+clear
+history
+
+CTRL+A -- początek linii
+CTRL+E -- koniec linii
+CTRL+L -- to samo co clear
+CTRL+K -- odetnij od tego miejsca i wstaw do schowka
+CTRL+U -- od tego miejsca -||-
+CTRL+Y -- wklej
+
+!XX -- wstaw polecenie nr XX
+
+CTRL+R, początek polecenia, enter -- wyszuka i wykona polecenie z historii
+CTRL+R, początek polecenia, CTRL+J -- -||- wstawi polecenie do wiersza i pozwoli edytować
+
+CTRL+O -- wykona polecenie z historii i po nowym znaku zachęty przejdzie do następnego w kolei -- wykonywanie takiej samej sekwencji poleceń
+
+id -- nr i nazwa usera, grupy i innych grup w których jest
+
+http://screencloud.net/v/z149
+
+uprawnienia:
+1 - x
+2 - w
+4 - r
+
+chmod u+x,go=rx plik
+
+specjalne uprawnienia:
+4xxx -- effective user -- uruchamianie programu jako jego właściciel -- chmod u+s program -- -rwsr-xr-x
+2xxx -- effective group -- tworzenie nowych plików w katalogu z grupą ustawioną na grupe katalogu -- chmod g+s dir -- drwxrwsr-x
+1xxx -- sticky bit -- blokuje możliwość zmiany nazwy i usuwanie plików/katalogów mimo uprawnień -- ustawiany dla katalogu -- np. /tmp -- chmod +t dir -- drwxrwxrwt
+
+umask 0642
+6 -- brak uprawnień
+4 -- brak odczytu, zapis
+2 -- brak zapisu, odczyt
+0 -- odczyt i zapis
+
+su -l (nazwa) -- odpali powłoke jak przy zwykłym logowaniu i zmieni cwd -- mozna skrócić do samego su - (nazwa)
+su -c 'echo 1' (nazwa) -- wywołanie polecenia
+sudo -l -- pokaże uprawnienia obecnego usera
+
+ps x -- procesy na wszystkich terminalach i odpięte od terminalu + kolumna STAT -- http://screencloud.net/v/rDuE
+ps u -- więcej kolumn - USER, CPU, MEM itp. -- http://screencloud.net/v/E5GP
+ps a -- procesy wszystkich użytkowników
+ps ww -- pełne polecenie -- nie przycinane do rozmiaru ekranu
+
+polecenie &
+jobs -- wyświetla polecenia w tle
+fg %1 -- przywołanie polecenia nr 1 w tle lub zatrzymanego do powłoki
+CTRL+Z -- zatrzymanie zadania
+bg %1 -- przywołanie zatrzymanego polecenia nr 1 w tło
+
+kill pid
+kill -1 pid
+kill -TERM pid
+http://screencloud.net/v/Bqiw
+http://screencloud.net/v/kzuE
+kill -l -- lista sygnałów
+killall -u user -SYGNAŁ nazwa
+
+pstree -- drzewko procesów
+vmstat -- zużycie pamięci i cpu
+
+printenv -- wyświetla zmienne środowiskowe
+printenv ZMIENNA
+
+set -- wyświetla zmienne środowiskowe i basha
+echo $ZMIENNA
+
+var="tekst" -- ustawia zmienną
+export var -- udostępnia zmienną procesom potomnym
+export var="tekst"
+
+alias -- wyświetla aliasy
+
+przetwarzanie plików startowych
+login - po zalogowaniu np. po ssh:
+/etc/profile
+~/.bash_profile
+~/.bash_login
+~/.profile
+
+non-login -- po otwarciu terminala bez logowania - np. iksy:
+/etc/bash.bashrc
+~/.bashrc
+
+source .bashrc -- wczytanie nowej konfiguracji
+
+apt-get update
+apt-get upgrade
+apt-get dist-upgrade
+apt-get install NAZWA
+apt-get remove NAZWA -- wywala same pakiety VV
+apt-get autoremove -- automatycznie wywala niepotrzebne już pakiety/zależności
+apt-get purge NAZWA -- wywala pakiety i pliki konfiguracyjne
+apt-get source NAZWA
+apt-get build-dep NAZWA
+apt-get download NAZWA -- pobiera paczkę do CWD
+apt-get moo
+
+apt-get -y DALSZE POLECENIE -- nie pyta o potwierdzenie
+apt-get -y remove mc && apt-get -y autoremove mc && apt-get -y purge mc -- wywala wszystko
+apt-get -y install dpkg-dev && apt-get source mc && apt-get build-dep mc && cd mc* && ./configure && make install clean -- kompiluje i instaluje mc
+
+apt-cache search NAZWA
+apt-cache stats NAZWA
+apt-cache depends NAZWA
+apt-cache showpkg NAZWA
+apt-cache showsrc NAZWA
+
+apt-key list
+apt-key add PLIK -- zamiast pliku można podać - żeby odczytał z stdin
+apt-key del ID_KLUCZA
+apt-key update
+
+aptitude
+dselect
+
+dpkg --install plik.deb
+dpkg --list -- lista wszystkich zainstalowanych pakietów
+dpkg --status NAZWA
+dpkg --info plik.deb
+dpkg --contents plik.deb
+dpkg --search NAZWA_PLIKU -- wyszukuje która paczka zainstalowała plik
+
+mount
+mount /dev/urzadzenie /mnt/katalog
+mount -t system_plikow /dev/urzadzenie /mnt/katalog
+mount -t iso9660 -o loop plik.iso /mnt/katalog
+mount -t udf -o loop plik.iso /mnt/katalog
+umount /dev/urzadzenie
+
+fdisk /dev/urzadzenie
+cfdisk /dev/urzadzenie
+mkfs -t system_plikow /dev/urzadzenie
+mkfs.system_plikow /dev/urzadzenie
+fsck /dev/urzadzenie -- musi byc odmontowane
+
+systemy plików:
+msdos
+vfat
+ntfs
+iso9660
+ext3
+ext4
+
+fdformat /dev/fd0
+mkfs -t msdos /dev/fd0
+
+genisoimage -o plik.iso -R -J /sciezka/do/folderu
+wodim dev=/dev/cdrw blank=fast -- czyszczenie cd-rw
+wodim dev=/dev/cdrw plik.iso -- domyslnie w trybie tao - track at once -- bez zamykania sesji
+wodim -dao dev=/dev/cdrw plik.iso -- data at once -- z zamknieciem sesji
+
+dd if=wejscie of=wyjscie bs=512 count=1000
+dd if=/dev/cdrom of=plik.iso
+
+md5sum plik.iso
+md5sum /dev/cdrom
+
+ping -c 10 -- wyśle 10 pingów i się wyłączy
+ping -f -- flood, wysyła 100 pingów na sekundę, wyświetla kropki oznaczające jak wiele pingów jest w sieci i czeka na odp.
+ping -i 0.1 -- czas między pingami
+ping -I NAZWA_IFACE ADRES_IP -- ustawia jako źródło pinga (duże i)
+ping -n -- nie zamienia IP na domeny
+ping -s 200 -- ustawia rozmiar pakietu, domyślnie 56+8 (nagłówek ICMP)
+ping -t 20 -- ustawia max TTL pakietu IP
+
+traceroute -I -- wysyła pakiety ICMP ECHO
+traceroute -T -- wysyła pakiety TCP SYN
+traceroute -g ADRES_IP -- dodaje do nagłówka IP prośbę o routing przez ten router (często ignorowane przez routery po drodze)
+traceroute -i VENET0:0 -- interfejs z którego wysyłane są pakiety
+traceroute -n -- nie tłumacz IP na domeny
+traceroute -p 1234 -- port z którego wysyłane będą pakiety, jeśli UDP lub TCP
+traceroute -A -- pokazuje nr systemu autonomicznego dla każdego hopu
+
+tracepatch -- podobnie jak traceroute, ale dodatkowo sprawdza patch mtu -- max długość pakietu jaką można przesłać przez daną trasę.
+tracepatch -n -- nie tłumaczy nazw na domeny
+
+netstat -r -- pokazuje tablice routingu
+netstat -i -- pokazuje tablice interfejsów sieciowych
+netstat -g -- członkostwo w grupach multicastowych
+netstat -s -- statystyki sieci w sys
+netstat -M -- tablica NAT-u (maskarady)
+
+netstat -- aktywne połączenia TCP i sockety unixowe
+netstat -l -- aktywne sokety nasłuchujące TCP, UDP i Unixowe
+netstat -a -- oba powyższe
+
+netstat -W -- nie ucina adresów IP
+netstat -n -- nie tłumaczy IP na domeny
+netstat -p -- wyświetla numery PID i nazwy programów które otworzyły socket/połączenie
+netstat -c -- nie wyłącza się i ciągle pokazuje aktualne dane
+
+ssh -X aaa@bbb.ccc -- otwiera tunel x11 do uruchamiania aplikacji okienkowych
+
+locate bin/zip
+updatedb -- tworzy baze plikow dla locate
+
+find /katalog -name NAZWA -- o nazwie NAZWA
+
+find /katalog -type d -- tylko katalogi
+find /katalog -type f -- tylko pliki
+find /katalog -type l -- tylko symlinki
+find /katalog -type b -- tylko block device
+find /katalog -type c -- tylko char device
+
+find /katalog -size -20k -- mniejsze niż 20kB
+find /katalog -size 10M -- równe 10MB
+find /katalog -size +2G -- większe niż 2GB
+
+Inne testy:
+http://screencloud.net/v/yJnw
+http://screencloud.net/v/rUOx
+
+find /katalog \( -type f -not -perm 0600 \) -or \( -type d -not -perm 0700 \)
+tam gdzie między testami nie ma operatora jest -and
+
+find ~ -type f -name '*.BAK' -print -- domyślna akcja jeśli nie wybrano innej
+find ~ -type f -name '*.BAK' -ls -- więcej info niż print
+find ~ -type f -name '*.BAK' -delete
+find ~ -type f -name '*.BAK' -quit -- nic nie wyświetla na wyjściu po znalezieniu
+
+find ~ -type f -name '*.BAK' -exec rm '{}' ';' -- wywołuje polecenie, {} jest zastępowane nazwą znalezionego pliku lub katalogu
+
+find ~ -type f -name 'foo*' -exec ls -l '{}' + -- spowoduje przesłanie wielu plików do jednego polecenia zamiast wykonywać pojedynczo polecenie dla każdego znalezionego pliku
+
+cat PLIK | xargs echo -- każda linijka z pliku PLIK zostanie wrzucona jako kolejny argument na wejściu polecenia znajdującego się po xargs (tutaj echo)
+
+gzip PLIK -- kompresuje
+gunzip PLIK -- dekompresuje
+gunzip -c PLIK   ==   zcat PLIK -- wyświetla zawartość bez wypakowywania
+gunzip -c PLIK | less   ==   zless PLIK
+
+bzip2 PLIK
+bunzip2 PLIK.bz2
+bzcat
+bzless
+
+tar -cf plik.tar /katalog
+tar -xf plik.tar
+tar -tf plik.tar -- lista plików
+
+tar -czf plik.tar.gz /katalog   ==   tar -czf plik.tgz /katalog
+tar -cjf plik.tar.bz2 /katalog   ==   tar -cjf plik.tbz /katalog
+
+tar -v -- lista plików, w przypadku opcji t, wyświetla więcej informacji
+
+tar tworzy strukturę wewnątrz archiwum bazując na cwd, więc tworząc archiwum katalogu /aaa/bbb/ccc/ddd będąc w /aaa w archiwum znajdą się katalogi bbb/ccc/ddd.
+
+zip -r PLIK.zip /KATALOG
+unzip PLIK.zip
+unzip -l PLIK.zip -- wyświetla LISTĘ PLIKÓW w archiwum
+unzip -p PLIK.zip -- wyświetla ZAWARTOŚĆ PLIKÓW w archiwum
+
+rsync -av --delete /KAT1 /KAT2 /KAT3 /BACKUP
+// a -- zachowanie uprawnień i rekursja
+// v -- napisy
+// /KAT1, /KAT2, /KAT3 -- katalogi do synchronizacji
+// /BACKUP -- katalog docelowy do którego wrzucone zostanę synchronizowane katalogi
+
+rsync -av --delete --rsh=ssh /KAT1 /KAT2 /KAT3 USER@SERWER:/BACKUP
+
+rsync -av rsync://SERWER/KATALOG /MIEJSCE -- ściąga zawartość zdalnego repozytorium do lokalnego katalogu /MIEJSCE
+
+cat -A PLIK -- wyświetli znaki niedrukowalne
+cat -n PLIK -- numeruje linie
+
+sort PLIK1 PLIK2 PLIK3 > PLIK_WYNIKOWY
+
+ls -l /usr/bin | sort -nr -k 5 | head
+// ls -l /usr/bin -- wyświetla listę plików z rozmiarem w 5 kolumnie
+// kolumny rozdzielone są spacjami lub tabulatorami
+// sort -nr -- sortuje linijki po wartościach numerycznych odwrotnie - największa wartość na górze
+// -k 5 -- sortuje bazując na wartości z 5 kolumny
+// head - pokazuje 10 pierwszych wpisów
+
+sort PLIK | uniq -- uniq wytnie identyczne wiersze, tylko jeśli plik będzie posortowany i te wiersze będą obok siebie
+
+cut -f 3 plik.txt -- wyświetli tylko 3 kolumne
+cut -d ':' =f 1 plik.txt -- wyświetli tylko 1 kolumne, znak rozdzielający kolumny to dwukropek
+cut -c 7-10 -- wyświetla znaki od 7 do 10
+expand plik.txt | cut -c 12- -- wyświetli znaki od 12, zamieniając najpierw tabulatory na normalne znaki
+
+plik1:
+aaa		bbb		ccc
+111		222		333
+
+plik2:
+xxx		yyy
+999		888
+
+paste plik1 plik2 -- pokaże kolumny z obu plików obok siebie
+
+plik1:
+111		aaa		bbb
+222		qaz		wsx
+
+plik2:
+111		213423141234
+222		574362856378456
+
+join plik1 plik2 -- połączy pliki bazując na kluczu z pierwszej kolumny, nie wyświetli klucza tylko wartości
+
+comm aaa.txt bbb.txt -- powrównuje 2 pliki, w pierwszej kolumnie wyświetla wartości tylko z pliku aaa.txt, w drugiej tylko z bbb.txt, a w trzeciej wspólne dla obu plików
+
+comm -12 aaa.txt bbb.txt -- wyświetli tylko wartości wspólne dla obu plików bez kolumn
+
+diff aaa.txt bbb.txt -- dziwny, stary unixowy format wyjścia
+diff -c aaa.txt bbb.txt -- kolejny dziwny format, pokazuje porównanie dla obu plików z osobna
+diff -u aaa.txt bbb.txt -- normalny format, różnice pokazywane są linia po linii
+
+diff -Naur aaa.txt bbb.txt > wynik_diffa.txt -- format dla patch'a
+patch < wynik_diffa.txt -- poprawi plik aaa.txt, tak żeby wyglądał identycznie jak bbb.txt
+
+echo "małe litery" | tr a-z A-Z -- zamieni na duże litery
+
+aspell check plik.txt -- interaktywne poprawianie pisowni
+aspell -H check plik.html -- tryb html, w którym nie będzie poprawiał tagów
+
+nl PLIK.TXT -- wyświetli plik z ponumerowanymi liniami -- ma dużo więcej opcji
+cat PLIK.TXT | fold -w 12 -- zawienie linie do 12 znaków
+cat PLIK.TXT | fold -w 12 -s -- podobnie jak poprzednio, ale nie będzie rozcinał słów
+ftm -- podobne do fold, ale ma więcej opcji
+ftm -w 50 -p '# ' PLIK.TXT -- zawija komentarze do 50 znaków, nie rusza kodu, jeśli komentarze są w 2 osobnych liniach zaczynających się od '# ' to połączy obie linie.
+pr -l 15 -w 65 PLIK.TXT -- stronicuje plik tekstowy do wydruku, dodaje nazwę pliku, date i numer strony, ilość lini na strone to 12, a znaków w linii to 65.
+
+printf "%d, %f, %o, %s, %x, %X\n" 380 380 380 380 380 380
+380, 380.000000, 574, 380, 17c, 17C
+d -- decimal
+f -- float
+o -- octal
+s -- string
+x -- hex malymi literami
+X -- HEX DUŻYMI LITERAMI
+http://screencloud.net/v/zAuQ -- ustawianie typów -- np. %2.5f
+
+ps2pdf POSTSCRIPT.PS PDF.PDF
+
+ls /sbin | pr -LICZBA_KOLUMN -w SZEROKOŚĆ_STR_W_ZNAKACH -l DŁUGOŚĆ_STR_W_ZNAKACH -- przygotowuje tekst do druku, stronicuje, ustawia w odpowiednich kolumnach i dociąga do szerokosci kartki.
+
+ls /sbin | pr ... -t -- bez podziału na strony, numeracji, nagłówków i stopek (do a2ps)
+
+ls /sbin | pr ... | lpr -ILOŚĆ_KOPII -p NAZWA_DRUKARKI -- drukowanie w stylu bsd
+
+ls /sbin | pr ... | lp -d DRUKARKA -n ILOŚĆ_KOPII -o OPCJE -P STRONY -- drukowanie w stylu SysV
+
+OPCJE:
+-o landscape -- przełącza orientacje strony na poziomą
+-o fitplot -- wypełnienie strony (np. obrazkiem)
+-o cp1=LICZBA -- ilość znaków na cal
+-o lp1=LICZBA -- ilość linii na cal
+-o page-(bottom|left|right|top)=ILOŚĆ_PUNKTÓW -- margines w punktach (72 punkty na cal)
+
+STRONY mogą być wymienione po przecinku lub jako zakres albo to i to.
+
+ls /sbin | a2ps -o PLIK.PS (-l ILOŚĆ_ZNAKÓW_W_LINII __LUB__ -L ILOŚĆ_LINII) -- drukuje do pliku postscript, opcje -l i -L dostosowują rozmiar tekstu
+
+ps2pdf PLIK.PS PLIK.PDF
+
+lpstat -s -- lista drukarek
+
+lpq -- wyświetla kolejki drukarek
+
+cancel NUMER -- usuwa wydruk z kolejki (w stylu SysV)
+lprm NUMER -- -||- (w styly BSD)
